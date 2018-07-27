@@ -49,19 +49,19 @@ describe("library", function() {
     it('should prefix paragraphes with extra \\n', function() {
       const html = "<p>Hello</p><p>world!</p>";
       const a = htt.convert(html);
-      assert.equal(a, "\nHello\n\nworld!\n");
+      assert.equal(a, "Hello\nworld!\n");
     });
 
     it('should catenate phrase elements in paragraph', function() {
       const html = "<p><span>Hello </span><b>world<em>!</em></b></p>";
       const a = htt.convert(html);
-      assert.equal(a, "\nHello world!\n");
+      assert.equal(a, "Hello world!\n");
     });
 
     it('should wrap paragraphes', function() {
       const html = "<p>Hello 0123456789 0123456789 0123456789</p>";
       const a = htt.convert(html, {width: 10});
-      assert.equal(a, "\nHello\n0123456789\n0123456789\n0123456789\n");
+      assert.equal(a, "Hello\n0123456789\n0123456789\n0123456789\n");
     });
 
     describe("unordered lists", function() {
@@ -69,17 +69,16 @@ describe("library", function() {
       const a = htt.convert(html, {width: 80});
       console.log(a);
       const data = a.split('\n');
-    
+
       it('should start with an empty line', function() {
         assert.equal(data[0], "");
-      });      
+      });
 
       it('should be indented', function() {
         assert.equal(data[1], "  * Hello");
         assert.equal(data[2], "  * world");
-        assert.equal(data[3], "");
-        assert.equal(data[4], "    !");
-      });    
+        assert.equal(data[3], "    !");
+      });
 
       it('can be nested', function() {
         const html = "<ul><li>A</li>"+
@@ -95,7 +94,7 @@ describe("library", function() {
         assert.equal(data[2], "  * B");
         assert.equal(data[4], "      - B.A");
         assert.equal(data[5], "      - B.B");
-      });    
+      });
     });
 
     describe("ordered lists", function() {
@@ -103,27 +102,26 @@ describe("library", function() {
       const a = htt.convert(html, {width: 80});
       console.log(a);
       const data = a.split('\n');
-    
+
       it('should start with an empty line', function() {
         assert.equal(data[0], "");
-      });      
+      });
 
       it('should be indented', function() {
         assert.equal(data[1], " 1. Hello");
         assert.equal(data[2], " 2. world");
-        assert.equal(data[3], "");
-        assert.equal(data[4], "    !");
-      });    
+        assert.equal(data[3], "    !");
+      });
     });
 
     describe("br", function() {
       const html = "<p>Hello<br>world</p>";
       const a = htt.convert(html, {width: 80});
       console.log(a);
-    
+
       it('should break phrase content', function() {
-        assert.equal(a, "\nHello\nworld\n");
-      });      
+        assert.equal(a, "Hello\nworld\n");
+      });
     });
 
     describe("hr", function() {
@@ -131,24 +129,24 @@ describe("library", function() {
       const a = htt.convert(html, {width: 80});
       console.log(a);
       const data = a.split('\n');
-    
+
       it('should add a full-width separator', function() {
         assert.equal(data[1], "    Hello");
         assert.equal(data[2], "-".repeat(80));
         assert.equal(data[3], "    world");
-      });      
+      });
     });
 
     describe("unknown elements", function() {
       const html = "<p>Hello <xxx>great</xxx> world</p>";
       const a = htt.convert(html, {width: 80});
       console.log(a);
-    
+
       it('should be ignored', function() {
-        assert.equal(a, "\nHello world\n");
-      });      
+        assert.equal(a, "Hello world\n");
+      });
     });
-    
+
   });
 
 });
